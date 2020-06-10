@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Mouse Drawing in Canvas</title>
+        <style>
+
+            #labelBlack {
+                background-color: black;
+                color: white;
+            }
+            #labelRed{
+                background-color: red;
+                color: white;
+            }
+            #labelGreen{
+                background-color: green;
+                color: white;
+            }
+            #labelBlue{
+                background-color: blue;
+                color: white;
+            }
+            #labelWhite{
+                background-color: white;
+                color: black;
+                border: 1px solid black;
+            }
+            img{
+                width :120px;
+                height: 80px;
+                border: 1px solid black;
+            }
+         
+        </style>
+    </head>
+    <body>
+        <!-- not edit in css. if editing this canvas css attribute in css, have latency for checkint pencil -->
+        <canvas id="myCanvas" width="480px" height="320px" style="border-style: solid;" onmouseup="stop();" onmousedown="start();" onmousemove="draw();"></canvas>
+        <div>
+            pen color : 
+            <input type="radio" id="penBlack"name="penColor" value="black" onclick="colorChange(value);">
+            <label for="penBlack" id="labelBlack">black</label>
+            <input type="radio" id="penRed"name="penColor" value="red" onclick="colorChange(value);">  
+            <label for="penRed" id="labelRed">red</label>
+            <input type="radio" id="penGreen"name="penColor" value="green" onclick="colorChange(value);"> 
+            <label for="penGreen" id="labelGreen">green</label>
+            <input type="radio" id="penBlue"name="penColor" value="blue" onclick="colorChange(value);"> 
+            <label for="penBlue" id="labelBlue">blue</label>
+            <input type="radio" id="penWhite"name="penColor" value="white" onclick="colorChange(value);">
+            <label for="penWhite" id="labelWhite">white</label>
+        </div>
+        <div>
+            pen width : <input type="range" min="1" max="30" value="1" onchange="penWeight(value);">
+        </div>
+        <div>
+            <input type="button" value="캔버스 초기화" onclick="ClearCanvas();">
+            <input type="button" value="캔버스 저장" onclick="SaveCanvas();">
+        </div>
+        <div>
+            <img id="canvasImage" src="" alt="#"/>
+        </div>
+        <script>
+            var canvas = document.getElementById("myCanvas");
+            var myContext = canvas.getContext("2d");
+            var drawing = false;
+
+
+            var drag = document.getElementById("rangeWidth");
+            var dataURL = canvas.toDataURL();
+            var canvasImage = document.getElementById("canvasImage");
+            canvasImage.src = dataURL;
+
+            function start(){
+                e = window.event;
+                var startPos = myContext.moveTo(e.clientX-10,e.clientY -10);
+                
+                myContext.lineCap = "round";
+                drawing = true;
+
+                var rect = canvas.getBoundingClientRect();
+            }
+
+            function draw(){
+                if(drawing)
+                {
+                    e = window.event;
+                    
+                    myContext.lineTo(e.clientX - 10 ,e.clientY - 10);
+                    
+                    myContext.stroke();
+                }
+            }
+            function stop()
+            {
+                drawing = false;
+            }
+            function ClearCanvas()
+            {
+                myContext.clearRect(0,0,canvas.width,canvas.height);
+                //beginPath is clearing canvas
+                myContext.beginPath();
+            }
+            function colorChange(params_color)
+            {
+                console.log(params_color);
+                //beginPath is clearing canvas
+                myContext.beginPath();
+                myContext.strokeStyle = params_color;
+            }
+            function penWeight(weight){
+                console.log(weight);
+                //beginPath is clearing canvas
+                myContext.beginPath();
+                myContext.lineWidth = weight;
+            }
+            function SaveCanvas()
+            {
+                var dataURL = canvas.toDataURL();
+                var canvasImage = document.getElementById("canvasImage");
+                canvasImage.src = dataURL;
+            }
+        </script>
+    </body>
+</html>
