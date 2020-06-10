@@ -3,7 +3,19 @@
         <meta charset="UTF-8">
         <title>Mouse Drawing in Canvas</title>
         <style>
+            /*
 
+            this code made an error to make positioning in pen with mouse pointer position.
+            I edited this code off and add css code on my html canvas attribute.
+            then this problem is solved.
+
+
+            canvas {
+                width: 480;
+                height: 320;
+                border-style: solid;
+            }
+            */
             #labelBlack {
                 background-color: black;
                 color: white;
@@ -97,6 +109,9 @@
             function ClearCanvas()
             {
                 myContext.clearRect(0,0,canvas.width,canvas.height);
+                //beginPath method is useful for ending of style effect.
+                //if I didn't add this code , when I click the clear button and draw anything then something before I draw is poped up again all.
+                
                 //beginPath is clearing canvas
                 myContext.beginPath();
             }
@@ -104,12 +119,14 @@
             {
                 console.log(params_color);
                 //beginPath is clearing canvas
+                //if I didn't add this code, all thing that I draw is adapting this setting method. 
                 myContext.beginPath();
                 myContext.strokeStyle = params_color;
             }
             function penWeight(weight){
                 console.log(weight);
                 //beginPath is clearing canvas
+                //if I didn't add this code, all thing that I draw is adapting this setting method. 
                 myContext.beginPath();
                 myContext.lineWidth = weight;
             }
